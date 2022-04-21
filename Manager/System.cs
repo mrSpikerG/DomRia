@@ -9,6 +9,18 @@ namespace Manager
 {
     class System
     {
+        public uint Rate { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string PhoneNumber { get; set; }
+
+        public System(string name, string description, string phoneNumver, uint Rate)
+        {
+            Rate = 0;
+            Name = name;
+            Description = description;
+            PhoneNumber = phoneNumver;
+        }
         public void addProduct()
         {
             if (!Directory.Exists("Products"))
@@ -31,20 +43,114 @@ namespace Manager
             Console.Write("Введите расположение продукта: ");
             string adres = Console.ReadLine();
 
-            Console.Write("Введите название риелтора");
-            string titleRieltor = Console.ReadLine();
+            File.AppendAllText("Products/!DataBase", String.Format("{0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}|{8}|false", title, description, size, uah, adres, Name, Description, Rate, PhoneNumber));
 
-            Console.Write("Введите описание риелтора");
-            string descriptionRieltor = Console.ReadLine();
-
-            Console.Write("Введите рейтинг риелтора");
-            uint rate = uint.Parse(Console.ReadLine());
-
-            Console.Write("Введите номер риелтора");
-            string phoneNumber = Console.ReadLine();
-
-            File.AppendAllText("Products/!DataBase",String.Format("{0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}|{8}",title,description,size,uah,adres,titleRieltor,descriptionRieltor,rate,phoneNumber));
+            if (!Directory.Exists($"Products/{Name}"))
+            {
+                Directory.CreateDirectory($"Products/{Name}");
+            }
+            File.WriteAllText($"Products/{Name}/{title}-{size}.txt", String.Format("{0}|{1}|{2}|{3}|{4}", title, description, size, uah, adres));
         }
 
+        public void removeProduct()
+        {
+            Console.Write("Введите название продукта");
+            string title = Console.ReadLine();
+
+            string database = File.ReadAllText("Products/!DataBase");
+            string[] products = database.Split("\n");
+
+
+            File.WriteAllText("Products/!DataBase", "");
+            string chose;
+            for (int i = 0; i < products.Length; i++)
+            {
+                chose = "Нет";
+                string[] temp = products[i].Split("|");
+                if (temp[0] == title && temp[5] == Name)
+                {
+                    Console.WriteLine($"{temp[0]}, {temp[2]}, {temp[4]}");
+                    Console.WriteLine("Желаете удалить данный продукт? ");
+                    Console.Write("Ваш выбор(Да/Нет): ");
+                    chose = Console.ReadLine();
+
+                }
+                if (chose == "Нет")
+                {
+                    File.AppendAllText("Products/!DataBase", String.Join("|", temp));
+                }
+                else
+                {
+                    File.Delete($"Products/{Name}/{temp[0]}-{temp[2]}.txt");
+
+                }
+            }
+        }
+
+        public void archiveProduct()
+        {
+            Console.Write("Введите название продукта");
+            string title = Console.ReadLine();
+
+            string database = File.ReadAllText("Products/!DataBase");
+            string[] products = database.Split("\n");
+
+
+            File.WriteAllText("Products/!DataBase", "");
+            string chose;
+            for (int i = 0; i < products.Length; i++)
+            {
+                chose = "Нет";
+                string[] temp = products[i].Split("|");
+                if (temp[0] == title && temp[5] == Name)
+                {
+                    Console.WriteLine($"{temp[0]}, {temp[2]}, {temp[4]}");
+                    Console.WriteLine("Желаете заархивировать данный продукт? ");
+                    Console.Write("Ваш выбор(Да/Нет): ");
+                    chose = Console.ReadLine();
+
+                }
+                if (chose == "Да")
+                {
+                    temp[9] = "true";
+                    File.Move($"Products/{Name}/{temp[0]}-{temp[2]}.txt", ($"Products/{Name}/{temp[0]}-{temp[2]}-archived.txt");
+                }
+                File.AppendAllText("Products/!DataBase", String.Join("|", temp));
+            }
+        }
+        public void dearchiveProduct()
+        {
+            Console.Write("Введите название продукта");
+            string title = Console.ReadLine();
+
+            string database = File.ReadAllText("Products/!DataBase");
+            string[] products = database.Split("\n");
+
+
+            File.WriteAllText("Products/!DataBase", "");
+            string chose;
+            for (int i = 0; i < products.Length; i++)
+            {
+                chose = "Нет";
+                string[] temp = products[i].Split("|");
+                if (temp[0] == title && temp[5] == Name)
+                {
+                    Console.WriteLine($"{temp[0]}, {temp[2]}, {temp[4]}");
+                    Console.WriteLine("Желаете разархивировать данный продукт? ");
+                    Console.Write("Ваш выбор(Да/Нет): ");
+                    chose = Console.ReadLine();
+
+                }
+                if (chose == "Да")
+                {
+                    temp[9] = "false";
+                    if (File.Exists($"Products/{Name}/{temp[0]}-{temp[2]}-archived.txt"))
+                    {
+                        File.Move($"Products/{Name}/{temp[0]}-{temp[2]}-archived.txt", $"Products/{Name}/{temp[0]}-{temp[2]}.txt");
+                    }
+                }
+                File.AppendAllText("Products/!DataBase", String.Join("|", temp));
+            }
+        }
     }
 }

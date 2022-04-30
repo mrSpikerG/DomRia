@@ -6,7 +6,7 @@ namespace DomRia
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            System sys = new System();
         }
     }
 }

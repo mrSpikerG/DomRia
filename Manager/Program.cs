@@ -6,7 +6,10 @@ namespace Manager
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            System sys = new System("Vasya", "Best chel", "+380123456789", 7.4f);
+
+            sys.addProduct();
+
         }
     }
 }

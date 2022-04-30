@@ -9,12 +9,12 @@ namespace Manager
 {
     class System
     {
-        public uint Rate { get; set; }
+        public float Rate { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string PhoneNumber { get; set; }
 
-        public System(string name, string description, string phoneNumver, uint Rate)
+        public System(string name, string description, string phoneNumver, float Rate)
         {
             Rate = 0;
             Name = name;
@@ -28,10 +28,10 @@ namespace Manager
                 Directory.CreateDirectory("Products");
             }
 
-            Console.Write("Введите название продукта");
+            Console.Write("Введите название продукта: ");
             string title = Console.ReadLine();
 
-            Console.Write("Введите описание продукта");
+            Console.Write("Введите описание продукта: ");
             string description = Console.ReadLine();
 
             Console.Write("Введите сколько м³: ");
@@ -43,7 +43,7 @@ namespace Manager
             Console.Write("Введите расположение продукта: ");
             string adres = Console.ReadLine();
 
-            File.AppendAllText("Products/!DataBase", String.Format("{0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}|{8}|false", title, description, size, uah, adres, Name, Description, Rate, PhoneNumber));
+            File.AppendAllText("Products/!DataBase.txt", String.Format("\n{0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}|{8}|false", title, description, size, uah, adres, Name, Description, Rate, PhoneNumber));
 
             if (!Directory.Exists($"Products/{Name}"))
             {
@@ -57,11 +57,11 @@ namespace Manager
             Console.Write("Введите название продукта");
             string title = Console.ReadLine();
 
-            string database = File.ReadAllText("Products/!DataBase");
+            string database = File.ReadAllText("Products/!DataBase.txt");
             string[] products = database.Split("\n");
 
 
-            File.WriteAllText("Products/!DataBase", "");
+            File.WriteAllText("Products/!DataBase.txt", "");
             string chose;
             for (int i = 0; i < products.Length; i++)
             {
@@ -77,7 +77,7 @@ namespace Manager
                 }
                 if (chose == "Нет")
                 {
-                    File.AppendAllText("Products/!DataBase", String.Join("|", temp));
+                    File.AppendAllText("Products/!DataBase.txt", String.Join("|", temp));
                 }
                 else
                 {
@@ -89,14 +89,14 @@ namespace Manager
 
         public void archiveProduct()
         {
-            Console.Write("Введите название продукта");
+            Console.Write("Введите название продукта: ");
             string title = Console.ReadLine();
 
-            string database = File.ReadAllText("Products/!DataBase");
+            string database = File.ReadAllText("Products/!DataBase.txt");
             string[] products = database.Split("\n");
 
 
-            File.WriteAllText("Products/!DataBase", "");
+            File.WriteAllText("Products/!DataBase.txt", "");
             string chose;
             for (int i = 0; i < products.Length; i++)
             {
@@ -113,21 +113,21 @@ namespace Manager
                 if (chose == "Да")
                 {
                     temp[9] = "true";
-                    File.Move($"Products/{Name}/{temp[0]}-{temp[2]}.txt", ($"Products/{Name}/{temp[0]}-{temp[2]}-archived.txt");
+                    File.Move($"Products/{Name}/{temp[0]}-{temp[2]}.txt", ($"Products/{Name}/{temp[0]}-{temp[2]}-archived.txt"));
                 }
-                File.AppendAllText("Products/!DataBase", String.Join("|", temp));
+                File.AppendAllText("Products/!DataBase.txt", String.Join("|", temp));
             }
         }
         public void dearchiveProduct()
         {
-            Console.Write("Введите название продукта");
+            Console.Write("Введите название продукта: ");
             string title = Console.ReadLine();
 
-            string database = File.ReadAllText("Products/!DataBase");
+            string database = File.ReadAllText("Products/!DataBase.txt");
             string[] products = database.Split("\n");
 
 
-            File.WriteAllText("Products/!DataBase", "");
+            File.WriteAllText("Products/!DataBase.txt", "");
             string chose;
             for (int i = 0; i < products.Length; i++)
             {
@@ -149,7 +149,7 @@ namespace Manager
                         File.Move($"Products/{Name}/{temp[0]}-{temp[2]}-archived.txt", $"Products/{Name}/{temp[0]}-{temp[2]}.txt");
                     }
                 }
-                File.AppendAllText("Products/!DataBase", String.Join("|", temp));
+                File.AppendAllText("Products/!DataBase.txt", String.Join("|", temp));
             }
         }
     }

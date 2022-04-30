@@ -27,6 +27,9 @@ namespace DomRia
             Size = size;
         }
 
-
+        public override string ToString()
+        {
+            return String.Format("Название: {0}\t\tОписание:{1}\t\t{2}м\nРиелтор: {3}\nАдресс: {4}\tЦена: {5}", Title,Description,Size,Seller,GEO,ProductPrice);
+        }
     }
 }

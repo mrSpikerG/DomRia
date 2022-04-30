@@ -25,5 +25,9 @@ namespace DomRia.AdditionalInfo
             Street = street;
             House = house;
         }
+        public override string ToString()
+        {
+            return $"{City} {Street} {House}".Trim();
+        }
     }
 }

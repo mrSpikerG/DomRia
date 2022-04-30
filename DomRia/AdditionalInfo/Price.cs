@@ -19,7 +19,11 @@ namespace DomRia.AdditionalInfo
         public Price(ulong uah)
         {
             UAH = uah;
-            USD = uah * 29;
+            USD = uah / 29;
+        }
+        public override string ToString()
+        {
+            return $"{UAH}UAH | {USD}USD"; 
         }
     }
 }

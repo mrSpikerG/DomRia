@@ -35,11 +35,7 @@ namespace DomRia
 
             Console.WriteLine(FullPath);
             getDataBase();
-            //showFilterMoney();
-            //showFilterSeller();
-            //showFilterName();
-            showSellerInfo();
-            ///showAll();
+           
         }
 
         public void showAll()
